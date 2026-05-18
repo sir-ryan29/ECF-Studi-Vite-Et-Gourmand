@@ -22,28 +22,37 @@
     </nav>
 
     <main class="container my-5">
-        <h2 class="mb-4 text-success">Trajets disponibles</h2>
-
-        <div class="border rounded p-3 mb-3 bg-white">
-            <h4>Paris - Lyon</h4>
-            <p>Départ : 08h00 | Chauffeur : Thomas</p>
-            <p>Type : Voiture Électrique</p>
-            <p>Places : 3 restantes</p>
-            <p class="fw-bold text-success">Prix : 25 €</p>
-            <button class="btn btn-success btn-sm">Réserver</button>
+        <h2 class="text-success mb-4">Rechercher un covoiturage</h2>
+        
+        <div class="row g-3 mb-5 p-3 border rounded bg-light">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Départ">
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Arrivée">
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success w-100">Rechercher</button>
+            </div>
         </div>
 
-        <div class="border rounded p-3 mb-3 bg-white">
-            <h4>Nantes - Rennes</h4>
-            <p>Départ : 14h30 | Chauffeur : Julie</p>
-            <p>Type : Voiture Thermique</p>
-            <p>Places : 1 restante</p>
-            <p class="fw-bold text-success">Prix : 12 €</p>
-            <button class="btn btn-success btn-sm">Réserver</button>
+        <h3 class="mb-3">Trajets disponibles</h3>
+        <div class="card mb-3">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title text-success">Paris ➔ Lyon</h5>
+                    <p class="card-text mb-1">Départ : Demain à 08h00</p>
+                    <p class="card-text text-muted small">Chauffeur : Thomas | ⚡ Véhicule 100% Électrique</p>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-success fs-5 d-block mb-2">25 €</span>
+                    <a href="#" class="btn btn-outline-success btn-sm">Réserver</a>
+                </div>
+            </div>
         </div>
     </main>
 
-    <footer class="bg-dark text-white text-center py-4">
+    <footer class="bg-dark text-white text-center py-4 mt-auto">
         <div class="container">
             <p>Contact : contact@ecoride.fr</p>
         </div>
