@@ -1,0 +1,39 @@
+/* Importation des polices de la charte */
+@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;600;700&display=swap');
+
+/* Style global */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fafafa;
+    color: #212529;
+}
+
+/* Titres */
+h1, h2, h3, h4, .navbar-brand {
+    font-family: 'Arvo', serif;
+    font-weight: 700;
+}
+
+/* Vert forêt (Couleur principale) */
+.bg-success {
+    background-color: #2d5a27 !important;
+}
+
+/* Vert herbe (Boutons) */
+.btn-success {
+    background-color: #8bc34a;
+    border-color: #8bc34a;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.btn-success:hover {
+    background-color: #76a63f;
+    border-color: #76a63f;
+    color: #ffffff;
+}
+
+/* Jaune (Accents) */
+.text-warning {
+    color: #ffc107 !important;
+}
