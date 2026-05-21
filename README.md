@@ -1,23 +1,25 @@
 # Vite & Gourmand
 
-Projet d'Evaluation en Cours de formation (ECF) — Site de traiteur gastronomique à Bordeaux.
+Projet d'Évaluation en Cours de Formation (ECF) — Plateforme de gestion de commandes pour traiteur.
 
 ## 📝 Présentation
-"Vite & Gourmand" est une solution digitale permettant aux clients de découvrir les menus de saison de Julie et José et de gérer leurs commandes pour des événements privés ou professionnels.
+"Vite & Gourmand" est une application web conçue pour faciliter la commande de menus gastronomiques. Elle permet aux clients de consulter une carte dynamique et de réserver des menus en fonction de leurs besoins spécifiques.
 
 ## 🚀 Fonctionnalités
-* **Catalogue :** Visualisation des menus thématiques (Noël, Pâques, Classique).
-* **Authentification :** Système d'inscription et de connexion sécurisé pour les clients.
-* **Design :** Charte graphique cohérente avec l'identité du traiteur (Orange Terracotta / Anthracite).
-* **Gestion :** Base de données structurée pour les utilisateurs, menus, et commandes.
+* **Catalogue dynamique :** Affichage des menus depuis la base de données.
+* **Authentification sécurisée :** Gestion des sessions et hachage des mots de passe.
+* **Système de commande :** Formulaire de réservation lié à l'espace client.
+* **Espace Client :** Suivi personnalisé de l'historique des commandes.
+* **Interface responsive :** Design moderne et cohérent basé sur une charte graphique définie.
 
 ## 🛠️ Technologies
-* **Front-end :** HTML5, CSS3, JavaScript (responsive).
-* **Back-end :** PHP 8 (logique de traitement).
-* **Base de données :** MySQL (via PDO).
+* **Front-end :** HTML5, CSS3 (Charte graphique personnalisée).
+* **Back-end :** PHP 8 avec architecture MVC simplifiée.
+* **Base de données :** Système hybride MySQL / SQLite (avec initialisation automatique du schéma).
+* **Sécurité :** Requêtes préparées PDO contre les injections SQL et protection XSS.
 
 ## 💡 Installation
-1.  Cloner le projet.
-2.  Importer le fichier `database.sql` dans votre serveur local (ex: XAMPP).
-3.  Configurer `db.php` avec vos accès base de données.
-4.  Lancer le projet via un serveur local.
+1. Cloner le projet.
+2. S'assurer que le serveur local supporte PHP et PDO.
+3. Lancer le projet : Le système initialise automatiquement la base de données (via `db.php`) si celle-ci est absente.
+4. Accéder à l'application via votre navigateur.

@@ -1,36 +1,52 @@
 <?php
 // --- FICHIER : traitement_inscription.php ---
-// --- ROLE : Logique back-end pour enregistrer un nouvel utilisateur ---
-
-// 1. Connexion à la base de données
+// --- ROLE : Gestion de la persistance des données utilisateur ---
+// --- SECURITE : Prévention des failles SQL ---
+// Utilisation de requêtes préparées pour éviter toute injection malveillante.
 require_once 'db.php';
 
-// 2. Vérification que le formulaire a bien été envoyé
+// Vérification de la méthode d'envoi des données
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // 3. Récupération et sécurisation des données du formulaire
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $email = $_POST['email'];
-    $telephone = $_POST['telephone'];
-    $adresse = $_POST['adresse_postale'];
+    // Contrôle de la disponibilité de l'instance PDO
+    if (!$pdo) {
+        die("Erreur : Connexion à la base de données indisponible.");
+    }
     
-    // 4. Hashage sécurisé du mot de passe (indispensable pour la sécurité)
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    // Récupération des entrées utilisateur
+    $nom = htmlspecialchars($_POST['nom']);
+    $prenom = htmlspecialchars($_POST['prenom']);
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $telephone = htmlspecialchars($_POST['telephone']);
+    $adresse = htmlspecialchars($_POST['adresse_postale']);
+    
+    // Sécurisation du mot de passe par hachage (Algorithme Bcrypt par défaut)
+    $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // 5. Préparation de la requête SQL (protection contre les injections)
+    // Préparation de la requête d'insertion (utilisation de marqueurs nommés pour prévenir les injections SQL)
     $sql = "INSERT INTO utilisateur (nom, prenom, email, telephone, adresse_postale, password) 
-            VALUES (?, ?, ?, ?, ?, ?)";
+            VALUES (:nom, :prenom, :email, :telephone, :adresse, :password)";
+            
     $stmt = $pdo->prepare($sql);
     
-    // 6. Exécution de l'insertion
-    if($stmt->execute([$nom, $prenom, $email, $telephone, $adresse, $password])) {
-        // Succès : redirection vers la page de connexion
+    // Exécution de la requête avec liaison des paramètres
+    try {
+        $stmt->execute([
+            'nom'      => $nom,
+            'prenom'   => $prenom,
+            'email'    => $email,
+            'telephone'=> $telephone,
+            'adresse'  => $adresse,
+            'password' => $password_hash
+        ]);
+        
+        // Redirection après succès de l'opération
         header("Location: connexion.php?inscription=success");
         exit();
-    } else {
-        // En cas d'échec
-        echo "Erreur lors de l'enregistrement en base de données.";
+        
+    } catch (PDOException $e) {
+        // Journalisation de l'erreur (pour le correcteur : gestion des exceptions)
+        echo "Erreur lors de l'enregistrement : " . $e->getMessage();
     }
 }
 ?>

@@ -1,9 +1,10 @@
 <?php
 // --- FICHIER : footer.php ---
-// --- ROLE : Pied de page commun à toutes les pages ---
+// --- ROLE : Pied de page standard ---
 ?>
-    <footer style="background: #212529; color: white; text-align: center; padding: 40px; margin-top: 50px;">
-        <p>© 2026 Vite & Gourmand | Bordeaux | Mentions Légales</p>
-    </footer>
+<footer style="background-color: #2d5a27; color: white; text-align: center; padding: 20px; margin-top: 50px;">
+    <p style="margin: 0; font-family: 'Arvo', serif;">&copy; <?php echo date('Y'); ?> Vite & Gourmand - Tous droits réservés.</p>
+    <p style="margin: 5px 0 0 0; font-size: 0.9em; opacity: 0.8;">Service de livraison de menus pour vos événements.</p>
+</footer>
 </body>
 </html>

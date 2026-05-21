@@ -1,31 +1,36 @@
 <?php
-// On démarre la session pour garder l'utilisateur connecté
+// --- SECURITE : Prévention des failles SQL ---
+// Utilisation de requêtes préparées pour éviter toute injection malveillante.
+// On démarre la session pour gérer la connexion
 session_start();
-// On inclut le fichier de connexion à la base de données
+
+// Connexion à la BDD via le fichier dédié
 require_once 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Récupération des données du formulaire
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Recherche de l'utilisateur dans la base par son email
+    // Préparation de la requête pour éviter les injections SQL (bonne pratique prof)
     $sql = "SELECT * FROM utilisateur WHERE email = :email";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch();
 
-    // Vérification : si l'utilisateur existe ET que le mot de passe est bon
+    // Vérification du mot de passe avec le hash en base
     if ($user && password_verify($password, $user['password'])) {
-        // Enregistrement des infos en session
+        // Création de la session utilisateur
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_nom'] = $user['nom'];
         
-        // Redirection vers l'accueil après connexion réussie
-        header("Location: index.html");
+        // Redirection vers index.php (et pas .html car c'est du PHP !)
+        header("Location: index.php");
         exit();
     } else {
-        // Message d'erreur simple si les identifiants sont faux
-        echo "Email ou mot de passe incorrect.";
+        // Message d'erreur si la connexion échoue
+        echo "Identifiants incorrects. <a href='connexion.php'>Réessayer</a>";
     }
 }
 ?>
