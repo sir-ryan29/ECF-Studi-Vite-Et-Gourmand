@@ -1,19 +1,25 @@
 <?php
-// --- FICHIER : header.php ---
-// --- ROLE : En-tête dynamique avec gestion de session ---
+/**
+ * FICHIER : header.php
+ * ROLE : En-tête dynamique avec injection CSS directe pour garantir le rendu.
+ */
 
 // Démarrage de la session si ce n'est pas déjà fait
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
-// Récupération du nom du fichier actuel pour gérer l'état "actif" des liens
+// Récupération du nom du fichier actuel pour la gestion de l'état "actif"
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
     <title>Vite & Gourmand</title>
+    
+    <style>
+        <?php include 'assets/css/style.css'; ?>
+    </style>
 </head>
 <body>
 <header>
