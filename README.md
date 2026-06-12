@@ -1,4 +1,3 @@
-
 # Vite & Gourmand
 
 Projet d'Évaluation en Cours de Formation (ECF) — Plateforme de gestion de commandes pour traiteur.
@@ -24,3 +23,6 @@ Projet d'Évaluation en Cours de Formation (ECF) — Plateforme de gestion de co
 2. S'assurer que le serveur local supporte PHP et PDO.
 3. Lancer le projet : Le système initialise automatiquement la base de données (via `db.php`) si celle-ci est absente.
 4. Accéder à l'application via votre navigateur.
+
+# Vite & Gourmand
+Projet d'Évaluation en Cours de Formation (ECF) — Plateforme de gestion de commandes pour traiteur.
