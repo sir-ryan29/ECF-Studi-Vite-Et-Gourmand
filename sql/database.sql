@@ -116,3 +116,43 @@ CREATE TABLE IF NOT EXISTS avis (
     statut VARCHAR(30) DEFAULT 'en attente',
     FOREIGN KEY (id_commande) REFERENCES commande(id)
 );
+
+-- Insertion des rôles
+INSERT INTO roles (id, nom_role) VALUES
+(1, 'Client'),
+(2, 'Employé'),
+(3, 'Administrateur')
+ON DUPLICATE KEY UPDATE nom_role=VALUES(nom_role);
+
+-- Insertion des thèmes
+INSERT INTO theme (id, libelle) VALUES
+(1, 'Noël'),
+(2, 'Pâques'),
+(3, 'Grill & Terroir'),
+(4, 'Cocktail'),
+(5, 'Green & Fraîcheur')
+ON DUPLICATE KEY UPDATE libelle=VALUES(libelle);
+
+-- Insertion des régimes
+INSERT INTO regime (id, libelle) VALUES
+(1, 'Classique'),
+(2, 'Végétarien')
+ON DUPLICATE KEY UPDATE libelle=VALUES(libelle);
+
+-- Insertion des 7 menus
+INSERT INTO menu (id, titre, description, nb_personne_min, prix_par_personne_min, stock_disponible, id_theme, id_regime) VALUES
+(1, 'Menu Noël Traditionnel', 'Foie gras mi-cuit, dinde rôtie aux marrons et bûche vanille-chocolat.', 2, 42.50, 50, 1, 1),
+(2, 'Menu Noël Prestige', 'Saint-Jacques poêlées, filet de bœuf rossini et bûche glacée fruits rouges.', 2, 65.00, 40, 1, 1),
+(3, 'Menu Pâques Traditionnel', 'Pâté berrichon, gigot d\'agneau rôti aux herbes et entremets chocolat.', 2, 36.90, 50, 2, 1),
+(4, 'Menu Pâques Prestige', 'Asperges vertes au sabayon, carré d\'agneau en croûte d\'herbes et œuf surprise en chocolat.', 2, 52.00, 30, 2, 1),
+(5, 'Menu Grill & Terroir', 'Planche de charcuterie fine, côte de bœuf grillée et tarte tatin maison.', 4, 34.00, 60, 3, 1),
+(6, 'Menu Cocktail Dînatoire', 'Assortiment de pièces cocktail salées et sucrées, macarons et mignardises.', 5, 28.00, 80, 4, 1),
+(7, 'Menu Green & Fraîcheur', 'Velouté glacé petits pois menthe, Buddha bowl végétarien et tartelette crue avocat-citron vert.', 2, 26.50, 45, 5, 2)
+ON DUPLICATE KEY UPDATE 
+    titre=VALUES(titre),
+    description=VALUES(description),
+    nb_personne_min=VALUES(nb_personne_min),
+    prix_par_personne_min=VALUES(prix_par_personne_min),
+    stock_disponible=VALUES(stock_disponible),
+    id_theme=VALUES(id_theme),
+    id_regime=VALUES(id_regime);

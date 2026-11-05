@@ -1,8 +1,7 @@
 <?php
 /**
  * FICHIER : includes/footer.php
- * ROLE : Pied de page standard, unifié avec logo officiel.
- * DESIGN : Palette respectée (Ocre/Sombre), intégration FontAwesome.
+ * ROLE : Pied de page global avec coordonnées, horaires et mentions légales.
  */
 ?>
 </main>
@@ -11,6 +10,7 @@
     
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: center; margin-bottom: 40px;">
         
+        <!-- Horaires d'ouverture -->
         <div>
             <h3 style="color: var(--ocre); margin-bottom: 15px; font-family: 'Playfair Display', serif;">Horaires</h3>
             <p style="margin: 5px 0; color: #888;"><strong>Lundi :</strong> Fermé</p>
@@ -18,6 +18,7 @@
             <p style="margin: 5px 0; color: #888;"><strong>Dimanche :</strong> 09h30 – 17h45</p>
         </div>
 
+        <!-- Coordonnées et contacts -->
         <div>
             <h3 style="color: var(--ocre); margin-bottom: 15px; font-family: 'Playfair Display', serif;">Contacts</h3>
             <p style="margin: 5px 0; color: #888;">
@@ -33,8 +34,9 @@
         </div>
     </div>
 
+    <!-- Pied de page bas : Logo, droits réservés et liens légaux -->
     <div style="text-align: center; border-top: 1px solid #161616; padding-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 12px;">
-        <img src="assets/img/logo.png" alt="Logo Pied de Page" style="height: 45px; width: auto; display: block;">
+        <img src="assets/img/others/logo.png" alt="Logo Pied de Page" style="height: 45px; width: auto; display: block;" onerror="this.onerror=null; this.src='assets/img/logo.png';">
         
         <p style="margin: 5px 0; color: #444; font-size: 0.9rem;">
             &copy; <?php echo date('Y'); ?> Vite & Gourmand - Tous droits réservés.

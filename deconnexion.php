@@ -1,17 +1,17 @@
 <?php
-// --- FICHIER : deconnexion.php ---
-// --- ROLE : Fermeture sécurisée de la session utilisateur ---
+/**
+ * FICHIER : deconnexion.php
+ * ROLE : Fermeture sécurisée de la session utilisateur.
+ */
 
-// Initialisation de la session pour pouvoir y accéder
+// Initialisation de la session
 session_start();
 
-// Suppression de toutes les variables de session en mémoire
+// Nettoyage et destruction de la session
 session_unset();
-
-// Destruction physique de la session sur le serveur
 session_destroy();
 
-// Redirection vers la page d'accueil après déconnexion
+// Redirection vers la page d'accueil
 header("Location: index.php");
 exit();
 ?>

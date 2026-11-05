@@ -1,52 +1,77 @@
 <?php
-// --- FICHIER : traitement_inscription.php ---
-// --- ROLE : Gestion de la persistance des données utilisateur ---
-// --- SECURITE : Prévention des failles SQL ---
-// Utilisation de requêtes préparées pour éviter toute injection malveillante.
-require_once 'db.php';
+/**
+ * FICHIER : traitement_inscription.php
+ * ROLE : Inscription d'un nouvel utilisateur (hachage du mot de passe et insertion BDD).
+ * SECURITE : Requêtes préparées PDO et password_hash().
+ */
 
-// Vérification de la méthode d'envoi des données
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    // Contrôle de la disponibilité de l'instance PDO
-    if (!$pdo) {
-        die("Erreur : Connexion à la base de données indisponible.");
-    }
-    
-    // Récupération des entrées utilisateur
-    $nom = htmlspecialchars($_POST['nom']);
-    $prenom = htmlspecialchars($_POST['prenom']);
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $telephone = htmlspecialchars($_POST['telephone']);
-    $adresse = htmlspecialchars($_POST['adresse_postale']);
-    
-    // Sécurisation du mot de passe par hachage (Algorithme Bcrypt par défaut)
-    $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+session_start();
 
-    // Préparation de la requête d'insertion (utilisation de marqueurs nommés pour prévenir les injections SQL)
-    $sql = "INSERT INTO utilisateur (nom, prenom, email, telephone, adresse_postale, password) 
-            VALUES (:nom, :prenom, :email, :telephone, :adresse, :password)";
-            
-    $stmt = $pdo->prepare($sql);
-    
-    // Exécution de la requête avec liaison des paramètres
-    try {
-        $stmt->execute([
-            'nom'      => $nom,
-            'prenom'   => $prenom,
-            'email'    => $email,
-            'telephone'=> $telephone,
-            'adresse'  => $adresse,
-            'password' => $password_hash
-        ]);
-        
-        // Redirection après succès de l'opération
-        header("Location: connexion.php?inscription=success");
-        exit();
-        
-    } catch (PDOException $e) {
-        // Journalisation de l'erreur (pour le correcteur : gestion des exceptions)
-        echo "Erreur lors de l'enregistrement : " . $e->getMessage();
-    }
+// Inclusion de la connexion BDD (chemin centralisé)
+if (file_exists('includes/db.php')) {
+    require_once 'includes/db.php';
+} else {
+    require_once 'db.php';
 }
-?>
+
+// 1. Vérification de la soumission du formulaire
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // 2. Nettoyage et récupération des champs
+    $nom       = isset($_POST['nom']) ? trim(htmlspecialchars($_POST['nom'])) : '';
+    $prenom    = isset($_POST['prenom']) ? trim(htmlspecialchars($_POST['prenom'])) : '';
+    $email     = isset($_POST['email']) ? filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL) : '';
+    $telephone = isset($_POST['telephone']) ? trim(htmlspecialchars($_POST['telephone'])) : '';
+    $adresse   = isset($_POST['adresse_postale']) ? trim(htmlspecialchars($_POST['adresse_postale'])) : '';
+    $raw_pass  = isset($_POST['password']) ? $_POST['password'] : '';
+
+    // 3. Contrôle des champs obligatoires
+    if (empty($nom) || empty($prenom) || empty($email) || empty($raw_pass) || empty($telephone) || empty($adresse)) {
+        header("Location: inscription.php?error=empty");
+        exit();
+    }
+
+    // Validation du format d'email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        header("Location: inscription.php?error=invalid_email");
+        exit();
+    }
+
+    if ($pdo) {
+        try {
+            // 4. Hachage sécurisé du mot de passe avec Bcrypt
+            $password_hash = password_hash($raw_pass, PASSWORD_DEFAULT);
+
+            // 5. Requête préparée pour l'insertion en base (sécurité SQL)
+            $sql = "INSERT INTO utilisateur (nom, prenom, email, telephone, adresse_postale, password) 
+                    VALUES (:nom, :prenom, :email, :telephone, :adresse, :password)";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                'nom'       => $nom,
+                'prenom'    => $prenom,
+                'email'     => $email,
+                'telephone' => $telephone,
+                'adresse'   => $adresse,
+                'password'  => $password_hash
+            ]);
+
+            // 6. Redirection vers la page de connexion
+            header("Location: connexion.php?success=registered");
+            exit();
+
+        } catch (PDOException $e) {
+            // Gestion des doublons d'email ou erreurs BDD
+            header("Location: inscription.php?error=exists");
+            exit();
+        }
+    } else {
+        header("Location: inscription.php?error=db");
+        exit();
+    }
+
+} else {
+    // Redirection de sécurité en cas d'accès direct
+    header("Location: inscription.php");
+    exit();
+}
